@@ -1,0 +1,23 @@
+{
+  "name": "node-base-project-by-mamduh",
+  "version": "1.0.0",
+  "description": "A blueprint for a Node.js project",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "localhost": "nodemon src/app.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "Mamduh Hayihama",
+  "license": "GNU v3",
+  "dependencies": {
+    "@koa/router": "^13.1.0",
+    "argon2": "^0.43.0",
+    "dotenv": "^16.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "koa": "^3.0.0",
+    "koa-bodyparser": "^4.4.1",
+    "nodemon": "^3.1.10"
+  }
+}
