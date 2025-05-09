@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "localhost": "nodemon src/app.js",
-    "dev": "nodemon index.js"
+    "develop": "nodemon src/app.js"
   },
   "keywords": [],
   "author": "Mamduh Hayihama",
