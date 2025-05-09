@@ -36,7 +36,7 @@ const notFoundHandler = async (ctx, next) => {
   
     // If no route was matched (status is 404), throw a NotFoundError
     if (ctx.status === 404) {
-      throw new NotFoundError('Unsupported route or resource not found');
+        throw new NotFoundError('ResourceNotFound', 'en'); 
       
     }
   };

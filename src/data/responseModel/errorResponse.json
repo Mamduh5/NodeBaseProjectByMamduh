@@ -1,0 +1,19 @@
+{
+    "UserNotFound": {
+      "en": "User not found during login attempt",
+      "th": "ไม่พบผู้ใช้ในระหว่างการพยายามเข้าสู่ระบบ"
+    },
+    "ResourceNotFound": {
+        "en": "Unsupported request, or resource not found",
+        "th": "คำขอที่ไม่รองรับ หรือไม่พบทรัพยากร"
+      },
+    "UnauthorizedAccess": {
+      "en": "Unauthorized access",
+      "th": "การเข้าถึงไม่อนุญาต"
+    },
+    "ValidationError": {
+      "en": "Validation failed for the provided data",
+      "th": "ข้อมูลไม่ผ่านการตรวจสอบ"
+    }
+  }
+  

@@ -3,7 +3,7 @@
 import CustomError from './customError.js';
 
 class NotFoundError extends CustomError {
-    constructor(message = 'Resource not found') {
+    constructor(message) {
         super(404, message);
     }
 }

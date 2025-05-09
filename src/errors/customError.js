@@ -1,7 +1,8 @@
 // base custom error class
-
+import { getErrorMessage } from '../utils/responses/errorMessage.js';
 class CustomError extends Error {
-    constructor(statusCode, message, isOperational = true) {
+    constructor(statusCode, errorKey, lang, isOperational = true) {
+        const message = getErrorMessage(errorKey, lang); // Get the message dynamically
         super(message);
         this.statusCode = statusCode;
         this.isOperational = isOperational;
