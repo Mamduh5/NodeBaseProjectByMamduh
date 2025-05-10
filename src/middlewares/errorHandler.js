@@ -1,45 +1,47 @@
-// error handler middleware where we use the custom error classes
-
+// middleware/errorHandler.js
 import CustomError from '../errors/customError.js';
 import NotFoundError from '../errors/notFoundError.js';
 import UnauthorizedError from '../errors/unauthorizedError.js';
-// Centralized error handling middleware
-const errorHandler = async function (ctx, next) {
-    try{
-        await next();
-    } catch (err){
-        
-        if( err instanceof CustomError ){
-            ctx.status = err.statusCode || 500;
-            ctx.body = { error: err.message };
-        }
-        else if (err.status === 404 || ctx.status === 404) {
-            ctx.status = 404;
-            ctx.body = { error: 'ResourceNotFound' };
-        }
-        else if (err instanceof UnauthorizedError){
-            ctx.status = 401;
-            ctx.body = { error: 'Unauthorized access' };
-        }
-        else{
-            ctx.status = 500;
-            ctx.body = { error: 'SomethingWentWrong', ctx };
-            console.log(err); // Log the unexpected error for debugging
-            
-        }
-        ctx.app.emit('error', err, ctx);
+
+const errorHandler = async (ctx, next) => {
+  try {
+    await next();
+
+    // Explicitly handle unmatched routes (404 Not Found)
+    if (ctx.status === 404 && !ctx.body) {
+      throw new NotFoundError(`Route ${ctx.method} ${ctx.path} not found`);
     }
-}
+  } catch (err) {
+    console.error(err); // log to console clearly
 
+    // set default status & message
+    let status = err.statusCode || err.status || 500;
+    let message = err.message || 'Internal Server Error';
+    let errorType = 'InternalServerError';
 
-const notFoundHandler = async (ctx, next) => {
-    await next();  // Proceed to next middleware (if any route matches)
-  
-    // If no route was matched (status is 404), throw a NotFoundError
-    if (ctx.status === 404) {
-        throw new NotFoundError('ResourceNotFound', ctx); 
-      
+    // handle custom errors explicitly
+    if (err instanceof NotFoundError) {
+      errorType = 'NotFoundError';
+      status = 404;
+    } else if (err instanceof UnauthorizedError) {
+      errorType = 'UnauthorizedError';
+      status = 401;
+    } else if (err instanceof CustomError) {
+      errorType = 'CustomError';
+      status = err.statusCode || 400;
     }
-  };
 
-export { errorHandler, notFoundHandler };
+    // standardized structured error response
+    ctx.status = status;
+    ctx.body = {
+      success: false,
+      message,
+      error: errorType,
+    };
+
+    // emit event for global logging (optional but recommended)
+    ctx.app.emit('error', err, ctx);
+  }
+};
+
+export default errorHandler;
