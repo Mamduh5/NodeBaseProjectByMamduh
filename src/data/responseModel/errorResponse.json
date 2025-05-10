@@ -14,6 +14,10 @@
     "ValidationError": {
       "en": "Validation failed for the provided data",
       "th": "ข้อมูลไม่ผ่านการตรวจสอบ"
+    },
+    "SomethingWentWrong": {
+      "en": "Something went wrong, Please try again later",
+      "th": "เกิดข้อผิดพลาดบางอย่าง กรุณาลองใหม่อีกครั้งในภายหลัง"
     }
   }
   

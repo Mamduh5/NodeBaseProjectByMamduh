@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path'
 import { __dirname } from '../globals.js';
+import { getLanguage } from '../language.js';  // Import the language helper
 
 console.log(__dirname);
 
@@ -20,10 +21,12 @@ const loadErrorMessages = () => {
  * @param {string} lang The language (e.g., 'en', 'th')
  * @returns {string} The error message in the specified language
  */
-const getErrorMessage = (errorKey, lang = 'en') => {
+const getErrorMessage = (errorKey, ctx) => {
+  const lang = getLanguage(ctx); // Dynamically get language from headers
   const errorMessages = loadErrorMessages();
-  const message = errorMessages[errorKey] ? errorMessages[errorKey][lang] : 'An unknown error occurred';
-  return message;
+console.log( ctx.language ,"111" )
+
+  return errorMessages[errorKey]?.[lang] || 'An unknown error occurred';
 };
 
 export { getErrorMessage };

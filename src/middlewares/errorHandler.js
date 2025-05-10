@@ -8,13 +8,14 @@ const errorHandler = async function (ctx, next) {
     try{
         await next();
     } catch (err){
+        
         if( err instanceof CustomError ){
             ctx.status = err.statusCode || 500;
             ctx.body = { error: err.message };
         }
-        else if ( err instanceof NotFoundError){
+        else if (err.status === 404 || ctx.status === 404) {
             ctx.status = 404;
-            ctx.body = { error: 'Resource not found' };
+            ctx.body = { error: 'ResourceNotFound' };
         }
         else if (err instanceof UnauthorizedError){
             ctx.status = 401;
@@ -22,7 +23,7 @@ const errorHandler = async function (ctx, next) {
         }
         else{
             ctx.status = 500;
-            ctx.body = { error: 'Something went wrong, Please try again later.' };
+            ctx.body = { error: 'SomethingWentWrong', ctx };
             console.log(err); // Log the unexpected error for debugging
             
         }
@@ -36,7 +37,7 @@ const notFoundHandler = async (ctx, next) => {
   
     // If no route was matched (status is 404), throw a NotFoundError
     if (ctx.status === 404) {
-        throw new NotFoundError('ResourceNotFound', 'en'); 
+        throw new NotFoundError('ResourceNotFound', ctx); 
       
     }
   };
