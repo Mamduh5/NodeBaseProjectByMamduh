@@ -5,14 +5,15 @@ import UnauthorizedError from '../errors/unauthorizedError.js';
 
 const errorHandler = async (ctx, next) => {
   try {
-    await next();
+    await next(); // Let routes and other middleware run first
 
-    // Explicitly handle unmatched routes (404 Not Found)
-    if (ctx.status === 404 && !ctx.body) {
+    // Only check for 404 after next() completes
+    if (ctx.status === 404 && ctx.body === undefined) {
       throw new NotFoundError(`Route ${ctx.method} ${ctx.path} not found`);
     }
+
   } catch (err) {
-    console.error(err); // log to console clearly
+    // console.error(err); // log to console clearly
 
     // set default status & message
     let status = err.statusCode || err.status || 500;

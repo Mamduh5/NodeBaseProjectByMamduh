@@ -7,14 +7,16 @@ const router = new Router({ prefix: '/token' });
 router.post('/login', 
     login,
     async (ctx) => {
-    // Example of throwing a custom error (e.g., User not found)
+
+      ctx.body = { message: 'login test route reached' }; // ✅ send something
+
   });
 
-router.post('/test/header', 
+router.get('/test/header', 
     async (ctx) => {
       console.log(ctx.headers['accept-language']);
       
-    // Example of throwing a custom error (e.g., User not found)
+      ctx.body = { message: 'Header test route reached' }; // ✅ send something
 });
 
 export default router;

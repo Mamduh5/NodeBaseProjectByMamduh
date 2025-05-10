@@ -5,13 +5,12 @@ import dotenv from 'dotenv';
 import errorHandler from './middlewares/errorHandler.js';
 import tokenRoutes from './routes/token.js';
 import logger from './utils/logger.js';
-import Router from '@koa/router';
 
 
 dotenv.config({ path: process.env.ENV_FILE || '.env' });
 
 const app = new Koa();
-const router = new Router();
+
 // lang
 app.use(errorHandler);
 
@@ -21,10 +20,6 @@ app.use(bodyParser());
 // Routes
 app.use(tokenRoutes.routes()).use(tokenRoutes.allowedMethods());
 
-app.use(async (ctx) => {
-    ctx.status = 404;
-    ctx.body = { error: 'Route Not Found' };
-});
 // global error event (best practice)
 app.on('error', (err, ctx) => {
   logger.error(`Server Error: ${err.message}`, {
