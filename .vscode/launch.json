@@ -19,6 +19,18 @@
         "ENV_FILE": ".env.localhost"
       },
       "skipFiles": ["<node_internals>/**"]
+    },
+      {
+      "name": "Debug errorMessage directly",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/utils/responses/errorMessage.js",
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "development",
+        "ENV_FILE": ".env.localhost"
+      },
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }

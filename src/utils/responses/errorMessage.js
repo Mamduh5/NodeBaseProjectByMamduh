@@ -2,9 +2,16 @@ import fs from 'fs';
 import path from 'path'
 import { __dirname } from '../globals.js';
 import { getLanguage } from '../language.js';  // Import the language helper
+import { get } from 'http';
 
 console.log(__dirname);
 
+const ctx = {
+  headers: {
+    'accept-language': 'th'
+  }
+};
+console.log(getLanguage(ctx), "getLanguage");
 
 /**
  * Load error messages from the JSON file
@@ -21,12 +28,18 @@ const loadErrorMessages = () => {
  * @param {string} lang The language (e.g., 'en', 'th')
  * @returns {string} The error message in the specified language
  */
-const getErrorMessage = (errorKey, ctx) => {
-  const lang = getLanguage(ctx); // Dynamically get language from headers
+const getErrorMessage = async (errorKey, ctx) => {
+  const lang = await getLanguage(ctx);
+  console.log(lang, "getLanguage222");
+  
+  console.log(errorKey, "errorKey");
+  
   const errorMessages = loadErrorMessages();
-console.log( ctx.language ,"111" )
 
+
+  console.log(errorMessages[errorKey]?.[lang]);
+  
   return errorMessages[errorKey]?.[lang] || 'An unknown error occurred';
 };
 
-export { getErrorMessage };
+export default getErrorMessage;

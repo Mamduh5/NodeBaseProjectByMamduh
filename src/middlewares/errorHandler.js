@@ -2,6 +2,7 @@
 import CustomError from '../errors/customError.js';
 import NotFoundError from '../errors/notFoundError.js';
 import UnauthorizedError from '../errors/unauthorizedError.js';
+import getErrorMessage  from '../utils/responses/errorMessage.js';
 
 const errorHandler = async (ctx, next) => {
   try {
@@ -9,7 +10,9 @@ const errorHandler = async (ctx, next) => {
 
     // Only check for 404 after next() completes
     if (ctx.status === 404 && ctx.body === undefined) {
-      throw new NotFoundError(`Route ${ctx.method} ${ctx.path} not found`);
+
+      throw new NotFoundError(`Route ${ctx.method} ${ctx.path} not found`, ctx);
+      
     }
 
   } catch (err) {
@@ -22,7 +25,7 @@ const errorHandler = async (ctx, next) => {
 
     // handle custom errors explicitly
     if (err instanceof NotFoundError) {
-      errorType = 'NotFoundError';
+      errorType = getErrorMessage('ResourceNotFound', ctx);
       status = 404;
     } else if (err instanceof UnauthorizedError) {
       errorType = 'UnauthorizedError';

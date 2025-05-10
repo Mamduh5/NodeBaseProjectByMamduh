@@ -1,5 +1,5 @@
 // base custom error class
-import { getErrorMessage } from '../utils/responses/errorMessage.js';
+import  getErrorMessage  from '../utils/responses/errorMessage.js';
 
 export default class CustomError extends Error {
   constructor(message, statusCode = 500) {
